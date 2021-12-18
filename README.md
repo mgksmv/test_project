@@ -19,13 +19,22 @@ pip install -r requirements.txt
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',  # я использовал MySQL. Можно и заменить на другую, но придется удалить драйвер MySQL, который скачался с requirements.txt
-        'NAME': os.getenv('NAME'),
-        'USER': os.getenv('USER'),
-        'PASSWORD': os.getenv('PASSWORD'),
-        'HOST': os.getenv('HOST'),
-        'PORT': os.getenv('PORT'),
+        'NAME': ___,
+        'USER': ___,
+        'PASSWORD': ___,
+        'HOST': ___,
+        'PORT': ___,
     }
 }
+```
+
+<br>
+Сгенеруйте любой секретный ключ (можно отсюда https://djecrety.ir/) и подставьте сюда:
+<br>
+<br>
+
+```
+SECRET_KEY = ___
 ```
 
 <br>
@@ -51,7 +60,7 @@ python manage.py faker 100
 ```
 
 <br>
-Теперь можно запустить сервер:
+Теперь можно запустить сервер и перейти по адресу http://127.0.0.1:8000/:
 <br>
 <br>
 
