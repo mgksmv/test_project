@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="text-center py-4">Таблица</h1>
+
+        <div class="row justify-content-center">
+            <div class="search mb-5">
+                <select class="p-1" name="column" id="column-value" style="height: 38px;">
+                    <option id="placeholder" disabled selected hidden>
+                        Колонка
+                    </option>
+                    <option id="name" value="name">Название</option>
+                    <option id="quantity" value="quantity">Количество</option>
+                    <option id="distance" value="distance">Расстояние</option>
+                </select>
+                {% if tip != None %}
+                    <h3 class="text-center text-danger">{{ message }}</h3>
+                {% endif %}
+
+                <select class="p-1" name="condition" id="condition-value" style="height: 38px;">
+                    <option id="placeholder" disabled selected hidden>
+                        Условие
+                    </option>
+                    <option id="equals" value="=">Равно</option>
+                    <option id="contains" value="in">Содержит</option>
+                    <option id="more_than" value=">">Больше</option>
+                    <option id="less_than" value="<">Меньше</option>
+                </select>
+
+                <input type="text" name="search_value" id="search-value" placeholder="Поиск"
+                       style="width: 300px; height: 38px;">
+                <button id="submit-button" class="btn btn-primary" style="vertical-align: unset;">Найти</button>
+                <button id="reset-button" class="btn btn-danger" style="vertical-align: unset;">Сбросить фильтры
+                </button>
+            </div>
+        </div>
+
+        <div id="filtered_data">
+            <h3 id="loading" class="text-center"></h3>
+            {% if message != None %}
+                <h3 class="text-center text-danger">{{ message }}</h3>
+            {% elif table_data|length == 0 %}
+                <h3 class="text-center text-danger">Ничего не найдено</h3>
+            {% else %}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Дата</th>
+                        <th scope="col">Название</th>
+                        <th scope="col">Количество</th>
+                        <th scope="col">Расстояние</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <div id="table_data_rows">
+                            {% for row in table_data %}
+                                <tr>
+                                    <th scope="row">{{ row.date }}</th>
+                                    <td>{{ row.name }}</td>
+                                    <td>{{ row.quantity }}</td>
+                                    <td>{{ row.distance }}</td>
+                                </tr>
+                            {% endfor %}
+                        </div>
+                    </tbody>
+                </table>
+            {% endif %}
+            
+            {% if not message or not table_data %}
+                <div class="mt-5">
+                    <nav id="pagination">
+                        <ul class="pagination justify-content-center">
+                            {% if table_data.has_previous %}
+                                <li class="page-item">
+                                    <a href="{{ request.path }}?page=1" class="page-link">&laquo; в начало</a>
+                                </li>
+                                <li class="page-item">
+                                    <a href="{{ request.path }}?page={{ table_data.previous_page_number }}" class="page-link">пред.</a>
+                                </li>
+                            {% endif %}
+                            
+                            <span class="current px-4">
+                                Страница {{ table_data.number }} из {{ table_data.paginator.num_pages }}.
+                            </span>
+        
+                            {% if table_data.has_next %}
+                                <li class="page-item"><a href="{{ request.path }}?page={{ table_data.next_page_number }}" class="page-link">след.</a>
+                                </li>
+                                <li class="page-item"><a href="{{ request.path }}?page={{ table_data.paginator.num_pages }}" class="page-link">в конец
+                                    &raquo;</a></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+
+{% endblock %}
