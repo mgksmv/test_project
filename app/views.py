@@ -19,7 +19,7 @@ class TableListView(ListView):
 
         context['table_data'] = Table.objects.all().order_by('-date')
 
-        # Этот блок для того, чтоб пагинация не сбилась. Сама фильтрация происходи во вьюшке filter_data
+        # Этот блок для того, чтоб пагинация не сбилась при фильтрации таблицы. Сама фильтрация происходит во вьюшке filter_data
         try:
             # Вытаскиваем значения с сессии (если уже пользовались фильтром)
             column_value = self.request.session['column_value']
